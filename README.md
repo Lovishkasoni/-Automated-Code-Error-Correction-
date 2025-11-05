@@ -36,3 +36,24 @@ The goal of this project is to develop an app inspired by Visual Studio Code "Mr
 * Enhance code quality with instant error repair suggestions.
 * Foster more engaging coding experience through visual feedback.
 * Provide a scalable framework that can be extended to other languages and richer fixes.
+
+
+## **How It Works?**
+
+To test it, make sure the file testnew.js (containing the error where '==' should be '===') is present in your project folder.
+
+1. Open the project in VS Code.
+
+2. Press Ctrl + Shift + D and click Run and Debug.
+
+3. A new window titled “Extension Development Host” will open.
+
+4. In this new window, press Ctrl + P and open the file testnew.js.
+
+5. Then press Ctrl + Shift + P and select “Show Mr. Incredible Panel”.
+
+6. A user interface will appear — click the button “Apply all simple fixes.”
+
+7. Once debugging and automatic correction are complete, a pop-up message will appear saying “Applied all simple fixes!”
+
+Your code is now error-free and successfully auto-fixed! ✅
