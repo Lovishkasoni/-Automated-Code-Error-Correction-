@@ -42,8 +42,44 @@ export function activate(context: vscode.ExtensionContext) {
         const document = editor.document;
         const text = document.getText();
 
-        // Example of a simple ESLint-style fix (replace == with ===)
-        const fixedText = text.replace(/==/g, '===');
+        let fixedText = text;
+
+        // 1. Replace == with ===
+        fixedText = fixedText.replace(/==/g, '===');
+
+        // 2. Replace != with !==
+        fixedText = fixedText.replace(/!=/g, '!==');
+
+        // 3. Remove trailing spaces
+        fixedText = fixedText.replace(/[ \t]+$/gm, '');
+
+        // 4. Auto-fix missing semicolons at end of lines
+        fixedText = fixedText.replace(/(?<=[^\s;])\n/g, ';\n');
+
+        // 5. Fix accidental console.logs left behind
+        fixedText = fixedText.replace(/console\.log\(.*?\);?/g, '// console.log removed by Autofixer');
+
+        // 6. Fix double spaces → single space
+        fixedText = fixedText.replace(/ {2,}/g, ' ');
+
+        // 7. Auto-fix missing parentheses in if statements (simple cases)
+        fixedText = fixedText.replace(/if\s+([^()\n]+)\s*{/g, 'if ($1) {');
+
+        //8. fix misplaced commas
+        fixedText = fixedText.replace(/,\s*}/g, ' }');
+
+        //9. convert var to let
+        fixedText = fixedText.replace(/\bvar\b/g, 'let');
+
+        //10. Convert function () → arrow functions (simple patterns)
+        fixedText = fixedText.replace(/function\s*\((.*?)\)\s*{/g, '($1) => {');
+
+        //11.Remove unused empty lines
+        fixedText = fixedText.replace(/\n{3,}/g, '\n\n');
+
+        //12. Fix missing commas between object properties
+        fixedText = fixedText.replace(/(\w+:\s*[^,\n}]+)\s*\n/g, '$1,\n');
+
 
         const edit = new vscode.WorkspaceEdit();
         const fullRange = new vscode.Range(
